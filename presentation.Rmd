@@ -1,0 +1,224 @@
+---
+title: "RStudio Tips and Tricks"
+author: "Sean Lopp"
+output:
+  xaringan::moon_reader:
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      countdown: 60000
+    css: presentation.css  
+---
+
+## Notebooks
+
+Scientists keep lab notebooks, data *scientists* should keep notebooks for the same reasons:
+
+- Record their hypothesis, observations, and conclusions in 1 place
+
+- Link all outputs and code
+
+- Easy, reproducible sharing
+
+
+???
+
+talk a bit about notebooks 
+
+---
+
+## Notebooks
+
+### Run R Markdown code chunks in line
+
+???
+
+run a code chunk in-line 
+show in-line equation preview
+
+
+---
+
+## Notebooks
+
+### Satellite Chunks
+
+???
+
+preview the data
+
+---
+
+## Notebooks
+
+### Publish self-contained HTML files 
+
+???
+
+preview in real time
+publish regular old html file
+download Rmd 
+
+---
+## Notebooks 
+
+### Run other languages (SQL)
+
+???
+
+Show a demo that uses sql
+
+---
+## Notebooks
+
+### Run other languages (ETl)
+
+???
+
+Show a demo that uses python / bash / sql
+
+
+---
+
+## Notebooks (& other things)
+
+### Version with Git
+
+???
+
+make a change to the notebook and show Git tab
+show the diff and revert the change
+
+
+---
+
+## Less Typing
+
+### Smart auto-completion
+
+Everything is fuzzy!
+
+???
+
+start with argument completion
+show everything is fuzzy with devtools::install_github
+
+---
+
+## Less Typing
+
+### Code Snippets 
+
+`snip` + Shift + Tab
+
+???
+
+start with function (be sure you're in a .R file!)
+show the edit snippets dialogue
+create my own for ggplot2 (?):
+
+
+---
+
+## Less Typing 
+
+### Command History 
+
+Cmd + Up
+
+???
+
+straightforward
+also show History pane
+bleeding edge (Ctrl+R)
+
+
+---
+
+## Navigation
+
+### Find files, functions, objects quickly 
+
+Ctrl + .
+
+???
+find the function we created during the code snippet section... 
+be sure to type it wrong 
+
+---
+
+## Navigation 
+
+### Find in Files
+
+Cmd + Shift + f
+
+???
+
+look for ggplot2 outside the scope of the current project
+
+---
+
+## Navigation
+
+### Auto-complete file paths
+
+Tab complete from within double quotes
+
+---
+
+## Navigation 
+
+### Prevent Tab Anxiety
+
+File -> Close All
+
+### Embrace Tab Anxiety
+
+Ctrl + Shift + .
+
+---
+
+## Keyboard Shortcuts
+
+### Change Them: Tools -> Modify Keyboard Shortcuts
+### See Them: Shift + Alt + k
+
+
+---
+
+## Addins 
+
+### Make your own extension
+
+Tie it to a keyboard shortcut 
+
+
+---
+
+## RStudio Server (Pro)
+
+### Run RStudio on a Server
+
+### Project Sharing (Pro)
+
+### Multiple Verisons of R (Pro)
+
+???
+
+Open RSP and do standard project sharing
+
+---
+
+## This Presentation 
+
+### Check out xaringan 
+
+---
+class: center, middle, inverse
+
+# Thanks!
+
+### sean@rstudio.com
+### github/slopp/nyr-tips-tricks

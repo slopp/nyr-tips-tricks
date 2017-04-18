@@ -1,0 +1,204 @@
+---
+title: "Exploring Ships in Star Wars"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{css}
+@import url('https://fonts.googleapis.com/css?family=Baloo');
+h1, h2 {
+  font-family: 'Baloo', cursive;
+}
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(rwars)
+library(ggrepel)
+library(ggthemes)
+library(readr)
+library(plotly)
+```
+
+```{r getdata, eval = FALSE}
+films <- rwars::get_all_films()$results
+
+#get_all_starships doesn't work :/
+#the ship ids are also not complete - there are gaps!
+#so we'll loop through potential ids and get the ships where they exist
+#not very efficient, but ok for a small API
+
+getDataRobust <- function(ids, f) {
+   
+   getSingle <- function(id, f) { 
+     tryCatch(f(id), error = function(e) { 
+      NULL
+     })
+   }
+   
+   all <- map(ids, ~getSingle(.x, f))
+   not_null <- all[!sapply(all, is.null)]
+   
+   not_null
+}
+
+
+ids <- 1:100
+ships <- getDataRobust(ids, get_starship)
+vehicles <- getDataRobust(ids, get_vehicle)
+
+# since we don't want to do this loop every time, lets save the intermediate results
+save(films, ships, vehicles, file = "sdata.Rdat")
+```
+
+```{r processdata}
+load("sdata.Rdat")
+episodes <- tibble(
+  title = map_chr(films, "title"),
+  episode = map_dbl(films, "episode_id"),
+  starships = map_dbl(films, ~length(.x$starships)),
+  vehicles = map_dbl(films, ~length(.x$vehicles)),
+  planets = map_dbl(films, ~length(.x$planets))
+)
+
+episodes <- episodes %>% 
+  mutate(ratio = starships / (vehicles + starships) * 100,
+         total = vehicles + starships,
+         label = paste0(title, "\n", vehicles," vehicles / ", starships, " starships")) %>% 
+  arrange(episode) %>% 
+  mutate(trilogy = c(rep("prequel", 3), rep("original", 3), rep("sequel", 1)))
+
+```
+
+One of the memorizing aspects of Star Wars is the number of spaceships. This report examines some characteristics of these ships. 
+
+The data for this report comes from [](SWAPI.co) and is accessed through the excellent [rwars package](github.com/ironholds/rwars).
+
+Throughout the analysis the [tidyverse](tidyverse.org) is used. As a few examples, in the code you'll see `ggplot2`, `dplyr::filter`, and `purr::map`.
+
+## A big imagination ... 
+
+Some ships we all probably know by heart. Picture Yoda raising the X-wing out of the swamp or Han racing off in the Millennium Falcon.
+
+Yet, the creators of Star Wars spent a good deal of time dreaming up ships and each episode contains a variety of unique ships.
+
+```{r ships}
+ggplot(episodes, aes(episode, total)) + 
+  geom_col() +
+  geom_text(aes(label = total, y = total -1), color = "black") + 
+  theme_fivethirtyeight() +   scale_color_fivethirtyeight() + 
+  labs(
+    title = "Increasing Imagination or More Lego Models to Sell?",
+    subtitle = "Each epsiode in a trilogy introduced more ships",
+    y = ""
+  ) + 
+  scale_y_continuous(labels = NULL) +
+  scale_x_continuous(labels = c("I", "II", "III", "IV", "V", "VI", "VII"), breaks = 1:7, minor_breaks = NULL)
+```
+
+*Bad data for episode 7?*
+
+Interestingly, it appears that prequels followed a trend in the original 3 movies by introducing more ships over time.
+
+
+```{r shipinfo}
+pop_ships <- tibble(
+  name = map_chr(ships, "name"),
+  films = map_dbl(ships, ~length(.x$films))
+)
+
+pop_vehs <- tibble(
+  name = map_chr(vehicles, "name"),
+  films = map_dbl(vehicles, ~length(.x$films))
+)
+
+all <- rbind(pop_ships, pop_vehs)
+```
+
+
+This graph makes it tempting to jump to conclusions, but there are only `r nrow(all)` unique ships! Some of the ships appear in more than one episode. To get a sense for some of the most popular ships, we can count the number of movies per ship:
+
+
+```{r shipplot}
+pop_all <- rbind(pop_ships, pop_vehs) %>% 
+  filter(films > 1)
+
+ggplot(pop_all, aes(reorder(name, films), films)) + 
+  geom_col() + 
+  coord_flip() + 
+  theme_fivethirtyeight() +   scale_color_fivethirtyeight() +
+  labs(
+    title = "Popular Ships",
+    subtitle = "Ships that appear in multiple episodes",
+    x = ""
+  ) +
+  scale_y_continuous(minor_breaks = NULL)
+```
+
+
+## How big is the death star?
+
+In addition to data on ship appearances by film, we also have data on ship characteristics such as size and shape. Using this data, lets try to get a sense for the scale of the infamous Death Star. 
+
+We start out small, looking at some familiar favorites such as the Millenium Falcon.
+
+```{r}
+ship_episode <- tibble(
+  crew = map_chr(ships, "crew") %>% parse_number(),
+  cost = map_chr(ships, "cost_in_credits") %>% parse_number(),
+  passengers = map_chr(ships, "passengers") %>% parse_number(),
+  cargo = map_chr(ships, "cargo_capacity") %>% parse_number(), 
+  name = map_chr(ships, "name")
+)
+
+plotShip <- function(data, outlier_bound = 10e100, main, label_ships) {
+  
+  mf <- data %>% 
+    filter(name %in% label_ships)
+  
+  data <- data %>% 
+    filter(crew < outlier_bound, passengers < outlier_bound)
+  
+  data %>% 
+    ggplot(aes(crew, passengers, label = name)) + 
+    geom_point() +
+    labs(
+      title  = main,
+      subtitle = "Crew vs Passengers"
+    ) + 
+    theme_fivethirtyeight() +   scale_color_fivethirtyeight() +
+    geom_point(data = mf) +
+    geom_text_repel(data = mf, aes(label = name))
+}
+```
+
+```{r}
+m <- lm(mpg ~ ., mtcars)
+plot(m)
+```
+
+
+```{r}
+plotShip(ship_episode, outlier_bound = 100,
+         "Reasonable Size", 
+         label_ships = c("Millennium Falcon", "Rebel transport"))
+plotShip(ship_episode, 
+         outlier_bound = 10e2, 
+         "Large High School", 
+         label_ships = c("Rebel transport", "CR90 corvette", "EF76 Nebulon-B escort frigate"))
+plotShip(ship_episode, outlier_bound = 10e3,
+         "Aircraft Carrier",
+         c("CR90 corvette", "EF76 Nebulon-B escort frigate", "Republic attack cruiser"))
+plotShip(ship_episode, outlier_bound = 10e4,
+         "Football Stadium", c("Republic attack cruiser", "Star Destroyer", "Trade Federation cruiser"))
+plotShip(ship_episode, main = "The State of Maine", 
+        label_ships = c("Star Destroyer",
+                        "Trade Federation cruiser",
+                        "Death Star",
+                        "Droid control ship",
+                        "Executor"))
+```
+

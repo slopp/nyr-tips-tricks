@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RStudio Tips and Tricks</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Sean Lopp" />
+    <link rel="stylesheet" href="presentation.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# RStudio Tips and Tricks
+### Sean Lopp
+
+---
+
+
+## Notebooks
+
+Scientists keep lab notebooks, data *scientists* should keep notebooks for the same reasons:
+
+- Record their hypothesis, observations, and conclusions in 1 place
+
+- Link all outputs and code
+
+- Easy, reproducible sharing
+
+
+???
+
+talk a bit about notebooks 
+
+---
+
+## Notebooks
+
+### Run R Markdown code chunks in line
+
+???
+
+run a code chunk in-line 
+show in-line equation preview
+
+
+---
+
+## Notebooks
+
+### Satellite Chunks
+
+???
+
+preview the data
+
+---
+
+## Notebooks
+
+### Publish self-contained HTML files 
+
+???
+
+preview in real time
+publish regular old html file
+download Rmd 
+
+---
+## Notebooks 
+
+### Run other languages (SQL)
+
+???
+
+Show a demo that uses sql
+
+---
+## Notebooks
+
+### Run other languages (ETl)
+
+???
+
+Show a demo that uses python / bash / sql
+
+
+---
+
+## Notebooks (&amp; other things)
+
+### Version with Git
+
+???
+
+make a change to the notebook and show Git tab
+show the diff and revert the change
+
+
+---
+
+## Less Typing
+
+### Smart auto-completion
+
+Everything is fuzzy!
+
+???
+
+start with argument completion
+show everything is fuzzy with devtools::install_github
+
+---
+
+## Less Typing
+
+### Code Snippets 
+
+`snip` + Shift + Tab
+
+???
+
+start with function (be sure you're in a .R file!)
+show the edit snippets dialogue
+create my own for ggplot2 (?):
+
+
+---
+
+## Less Typing 
+
+### Command History 
+
+Cmd + Up
+
+???
+
+straightforward
+also show History pane
+bleeding edge (Ctrl+R)
+
+
+---
+
+## Navigation
+
+### Find files, functions, objects quickly 
+
+Ctrl + .
+
+???
+find the function we created during the code snippet section... 
+be sure to type it wrong 
+
+---
+
+## Navigation 
+
+### Find in Files
+
+Cmd + Shift + f
+
+???
+
+look for ggplot2 outside the scope of the current project
+
+---
+
+## Navigation
+
+### Auto-complete file paths
+
+Tab complete from within double quotes
+
+---
+
+## Navigation 
+
+### Prevent Tab Anxiety
+
+File -&gt; Close All
+
+### Embrace Tab Anxiety
+
+Ctrl + Shift + .
+
+---
+
+## Keyboard Shortcuts
+
+### Change Them: Tools -&gt; Modify Keyboard Shortcuts
+### See Them: Shift + Alt + k
+
+
+---
+
+## Addins 
+
+### Make your own extension
+
+Tie it to a keyboard shortcut 
+
+
+---
+
+## RStudio Server (Pro)
+
+### Run RStudio on a Server
+
+### Project Sharing (Pro)
+
+### Multiple Verisons of R (Pro)
+
+???
+
+Open RSP and do standard project sharing
+
+---
+
+## This Presentation 
+
+### Check out xaringan 
+
+---
+class: center, middle, inverse
+
+# Thanks!
+
+### sean@rstudio.com
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

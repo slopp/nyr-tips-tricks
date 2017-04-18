@@ -1,0 +1,10 @@
+name: test_rsc_7
+title: test_rsc_7
+account: seanlopp
+server: beta.rstudioconnect.com
+appId: 2697
+bundleId: 5840
+url: https://beta.rstudioconnect.com/content/2697/
+when: 1492463312.08955
+asMultiple: FALSE
+asStatic: TRUE
