@@ -31,22 +31,10 @@ talk a bit about notebooks
 ## Notebooks
 
 ### Run R Markdown code chunks in line
-
-???
-
-run a code chunk in-line 
-show in-line equation preview
-
-
----
-
-## Notebooks
-
-### Satellite Chunks
-
-???
-
-preview the data
+### Progress  bar
+### Outline 
+### In-line LaTex preview
+### Satelitte Pane
 
 ---
 
@@ -182,8 +170,11 @@ Ctrl + Shift + .
 
 ## Keyboard Shortcuts
 
-### Change Them: Tools -> Modify Keyboard Shortcuts
-### See Them: Shift + Alt + k
+### Change Them: 
+Tools -> Modify Keyboard Shortcuts
+
+### See Them: 
+Shift + Alt + k
 
 
 ---
@@ -210,15 +201,10 @@ Tie it to a keyboard shortcut
 Open RSP and do standard project sharing
 
 ---
-
-## This Presentation 
-
-### Check out xaringan 
-
----
 class: center, middle, inverse
 
 # Thanks!
 
 ### sean@rstudio.com
 ### github/slopp/nyr-tips-tricks
+### Twitter: @rstudiotips
