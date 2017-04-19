@@ -121,7 +121,9 @@ For some reason, SkyWest Airline delays seem to be more dependent on the day of 
 
 This is just a small peak at the functions and power of the tidyverse.
 
-$x^2 + y^2 + z^2$
+### Equation
+
+$\int_0^\infty e^{-x^2} dx=\frac{\sqrt{\pi}}{2}$
 
 ### Satelitte Chunks
 
