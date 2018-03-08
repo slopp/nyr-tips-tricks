@@ -8,7 +8,11 @@ For more information: http://rmarkdown.rstudio.com/authoring_knitr_engines.html#
 First, setup a database connection: 
 
 Terrible Mistake!
+adlkfjd
 
+Some additions
+
+adfkladjl
 ```{r}
 library(DBI)
 library(RSQLite)
